@@ -1,0 +1,285 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#f5f5f7">
+<title>Perform — Protocolo</title>
+<!-- PWA / iPhone: instalar na Tela de Início -->
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="icon-180.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Perform">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<style>
+:root{
+  --bg:#f5f5f7;--surface:#fff;--surface2:#f0f0f5;--text:#111114;--muted:#73737c;--line:#e3e3e8;
+  --green:#20a464;--green2:#2fd27f;--green-soft:#e9f8f0;--blue:#3478f6;--blue-soft:#edf4ff;
+  --orange:#f5a623;--orange-soft:#fff5e5;--red:#d94a4a;--shadow:0 10px 30px rgba(15,23,42,.055);--radius:22px;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0;background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","SF Pro Text",Inter,system-ui,Segoe UI,Roboto,Arial,sans-serif;-webkit-font-smoothing:antialiased}
+body{padding-bottom:36px}.container{max-width:780px;margin:auto;padding:16px 14px 40px}
+.top{position:sticky;top:0;z-index:20;margin:-16px -14px 14px;padding:16px 14px 12px;background:rgba(245,245,247,.88);backdrop-filter:saturate(180%) blur(18px);-webkit-backdrop-filter:saturate(180%) blur(18px);border-bottom:1px solid rgba(227,227,232,.8)}
+.brandrow{display:flex;align-items:center;justify-content:space-between;gap:10px}.brand{display:flex;align-items:center;gap:10px}.logo{width:38px;height:38px;border-radius:13px;background:#111114;color:#fff;display:grid;place-items:center;font-weight:900;font-size:17px;box-shadow:0 8px 18px rgba(17,17,20,.14)}
+.title{font-size:25px;font-weight:900;letter-spacing:-.04em;line-height:1}.sub{font-size:11px;color:var(--muted);margin-top:5px}.dateRow{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-top:10px}.dateLabel{font-size:12px;color:var(--muted);font-weight:700;text-transform:capitalize}.date input{border:0;background:var(--surface);color:var(--text);border-radius:12px;padding:8px 10px;box-shadow:inset 0 0 0 1px var(--line);font:inherit}
+.pill{display:inline-flex;align-items:center;padding:6px 9px;border-radius:999px;background:var(--surface2);font-size:10px;font-weight:850;color:var(--muted);white-space:nowrap}.pill.green{background:var(--green-soft);color:#087a46}.pill.blue{background:var(--blue-soft);color:#175fc7}.pill.orange{background:var(--orange-soft);color:#9b5b00}
+.hero{background:#111114;color:#fff;border-radius:26px;padding:18px;box-shadow:0 14px 30px rgba(17,17,20,.12);margin-bottom:11px}.heroTop{display:flex;justify-content:space-between;align-items:flex-start;gap:10px}.heroTitle{font-size:34px;font-weight:900;letter-spacing:-.055em;line-height:1}.heroBadge{border:1px solid rgba(255,255,255,.13);background:rgba(255,255,255,.07);padding:8px 10px;border-radius:999px;font-size:10px;font-weight:850;white-space:nowrap}.heroProgress{margin-top:18px}.heroProgressTop{display:flex;justify-content:space-between;align-items:end;gap:10px;color:#b9b9c1;font-size:11px;font-weight:700}.heroProgressTop strong{color:#fff;font-size:24px;letter-spacing:-.04em}.heroBar{height:11px;background:rgba(255,255,255,.09);border-radius:999px;overflow:hidden;margin-top:8px}.heroBarFill{height:100%;width:0;background:linear-gradient(90deg,#21a96a,#58e59b);border-radius:999px;transition:width .3s ease}.heroHint{font-size:11px;color:#a8a8b2;margin-top:7px}.heroMetrics{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:14px}.heroMetric{background:rgba(255,255,255,.06);border-radius:16px;padding:11px}.heroMetric span{display:block;color:#9e9ea8;font-size:9px;letter-spacing:.08em;text-transform:uppercase;font-weight:800}.heroMetric strong{display:block;font-size:19px;margin-top:4px;letter-spacing:-.035em}.heroMetric small{display:block;color:#acacb5;font-size:10px;margin-top:4px}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:9px}.card{background:var(--surface);border:1px solid rgba(227,227,232,.94);border-radius:var(--radius);padding:15px;box-shadow:var(--shadow)}.wide{grid-column:1/-1}.label{font-size:10px;letter-spacing:.08em;font-weight:850;color:var(--muted);margin-bottom:7px}.kpi{font-size:29px;font-weight:900;letter-spacing:-.05em;line-height:1.05}.kpi small{font-size:12px;color:var(--muted);font-weight:750;letter-spacing:0}.progress{height:8px;background:var(--surface2);border-radius:99px;overflow:hidden;margin:11px 0 7px}.bar{height:100%;background:linear-gradient(90deg,#20a464,#46d98a);width:0;transition:width .25s}.bar.blue{background:linear-gradient(90deg,#3478f6,#79a8ff)}.statline{display:flex;justify-content:space-between;gap:10px;font-size:11px;color:var(--muted)}
+.section-title{font-size:18px;font-weight:900;letter-spacing:-.03em;margin:22px 2px 9px}.section-caption{font-size:11px;color:var(--muted);margin:-4px 2px 9px}.item{display:flex;align-items:center;gap:11px;padding:13px 0;border-bottom:1px solid var(--line);transition:.18s}.item:last-child{border-bottom:0}.check{width:21px;height:21px;accent-color:var(--green);flex:0 0 auto}.item.done{opacity:.48}.item.done .item-name{text-decoration:line-through}.item-main{flex:1;min-width:0}.item-time{font-size:11px;color:var(--muted);font-weight:850}.item-name{font-size:14px;font-weight:720;margin-top:2px;line-height:1.35}.emoji{font-size:20px;flex:0 0 auto}.trainingNow{background:linear-gradient(180deg,#f3fff8,#fff)}
+.btn{border:0;background:var(--surface2);color:var(--text);border-radius:13px;padding:11px 12px;font-weight:800;cursor:pointer;box-shadow:inset 0 0 0 1px var(--line);font:inherit}.btn:active{transform:scale(.985)}.btn.primary{background:#111114;color:#fff;box-shadow:none}.btn.green{background:var(--green-soft);color:#087a46;box-shadow:none}.btn.blue{background:var(--blue-soft);color:#175fc7;box-shadow:none}.btn.small{padding:8px 10px;font-size:12px}.row{display:flex;gap:8px;align-items:center}.row>*{flex:1}input,select,textarea{width:100%;background:var(--surface);color:var(--text);border:0;border-radius:12px;padding:10px 11px;font:inherit;box-shadow:inset 0 0 0 1px var(--line)}
+.food-list{display:flex;flex-direction:column;gap:8px;margin-top:10px}.food{display:grid;grid-template-columns:1fr 86px 38px;gap:7px;align-items:center}.food input{padding:9px 10px;font-size:13px}.iconbtn{width:38px;height:38px;border-radius:12px;border:0;background:var(--surface2);color:var(--red);font-size:20px;cursor:pointer}.note{font-size:11px;color:var(--muted);line-height:1.5}.alert{margin-top:10px;border-radius:16px;padding:12px;background:#fff9ee;color:#7c5200;border:1px solid #f3ddb3;font-size:11px;line-height:1.5}.water{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:10px}.water button{min-height:42px}.recommend{margin-top:10px;border:1px solid var(--line);background:linear-gradient(180deg,#fafafd,#fff);border-radius:17px;padding:13px}.recommendTop{display:flex;align-items:center;justify-content:space-between;gap:10px}.recommendTitle{font-size:12px;font-weight:900}.recommend kcal{color:var(--muted)}.recommendText{font-size:12px;line-height:1.45;margin-top:7px}.recommendMacro{font-size:10px;color:var(--muted);margin-top:6px}.agendaRow{display:flex;justify-content:space-between;gap:12px;align-items:center;padding:12px 0;border-bottom:1px solid var(--line)}.agendaRow:last-child{border-bottom:0}.agendaRow.today{margin:0 -8px;padding:12px 8px;border-radius:14px;background:linear-gradient(180deg,#f3fff8,#fff)}.agendaLeft strong{font-size:13px}.agendaLeft small{display:block;color:var(--muted);margin-top:3px;font-size:10px}.agendaRight{text-align:right;font-size:11px;font-weight:800;color:var(--muted);white-space:nowrap}
+.weekHead{display:flex;justify-content:space-between;gap:10px;align-items:center;margin-bottom:8px}.weekMeta{font-size:10px;color:var(--muted);line-height:1.4}.weekItem{display:flex;align-items:center;gap:11px;padding:12px 0;border-bottom:1px solid var(--line)}.weekItem:last-child{border-bottom:0}.weekItem.future{opacity:.45}.weekItem.today{background:linear-gradient(180deg,#f3fff8,#fff);border-radius:14px;padding:12px 10px;margin:0 -10px}.weekCheck{width:21px;height:21px;accent-color:var(--green);flex:0 0 auto}.weekIcon{font-size:18px;flex:0 0 auto}.weekMain{flex:1;min-width:0}.weekDay{font-size:12px;font-weight:900}.weekTask{font-size:11px;color:var(--muted);margin-top:3px}.weekTime{font-size:10px;color:var(--muted);font-weight:800}.weekStatus{font-size:10px;font-weight:850;padding:5px 8px;border-radius:999px;background:var(--surface2);color:var(--muted);white-space:nowrap}.weekStatus.done{background:var(--green-soft);color:#087a46}.weekStatus.pending{background:var(--orange-soft);color:#9b5b00}
+.footer{font-size:10px;color:#8a8a92;line-height:1.55;text-align:center;margin-top:18px;padding:0 6px}.empty{font-size:11px;color:var(--muted);padding:4px 0}
+@media(max-width:470px){.heroTitle{font-size:30px}.grid{gap:8px}.card{padding:13px}.hero{padding:16px}.kpi{font-size:27px}.food{grid-template-columns:1fr 76px 38px}.water{grid-template-columns:repeat(2,1fr)}}
+@media(min-width:700px){.grid{grid-template-columns:repeat(4,1fr)}.wide{grid-column:1/-1}}
+/* Modo app no iPhone: respeita a área da barra de status e da barra inferior */
+.container{padding-top:calc(16px + env(safe-area-inset-top));padding-bottom:calc(40px + env(safe-area-inset-bottom))}
+.top{margin-top:calc(-16px - env(safe-area-inset-top));padding-top:calc(16px + env(safe-area-inset-top))}
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="top">
+    <div class="brandrow">
+      <div class="brand"><div class="logo">P</div><div><div class="title">Perform</div><div class="sub">Seu protocolo diário</div></div></div>
+      <span class="pill green">FOCO • CONSISTÊNCIA</span>
+    </div>
+    <div class="dateRow"><div class="dateLabel" id="weekdayLabel"></div><input id="datePicker" type="date"></div>
+  </div>
+
+  <div class="hero">
+    <div class="heroTop"><div class="heroTitle">Do It</div><div class="heroBadge" id="dayBadge">—</div></div>
+    <div class="heroProgress">
+      <div class="heroProgressTop"><span>Conclusão do dia</span><strong id="taskPct">0%</strong></div>
+      <div class="heroBar"><div class="heroBarFill" id="taskBar"></div></div>
+      <div class="heroHint" id="taskCount">0 de 0 tarefas concluídas</div>
+    </div>
+    <div class="heroMetrics"><div class="heroMetric"><span>Próximo treino</span><strong id="nextTraining">—</strong><small id="nextTrainingSub">—</small></div><div class="heroMetric"><span>Funcional</span><strong id="functionalToday">—</strong><small>CT Nine</small></div></div>
+  </div>
+
+  <div class="grid">
+    <div class="card"><div class="label">ENERGIA</div><div class="kpi"><span id="kcalNow">0</span><small> / 2.200 kcal</small></div><div class="progress"><div id="kcalBar" class="bar"></div></div><div class="statline"><span id="kcalRemain">2.200 kcal restantes</span><span id="kcalPct">0%</span></div></div>
+    <div class="card"><div class="label">HIDRATAÇÃO</div><div class="kpi"><span id="waterNow">0,0</span><small> / 2,2 L</small></div><div class="progress"><div id="waterBar" class="bar blue"></div></div><div class="statline"><span id="waterRemain">2,2 L restantes</span><span id="waterPct">0%</span></div></div>
+  </div>
+
+  <div class="section-title">Hoje</div>
+  <div class="card" id="checklist"></div>
+
+  <div class="section-title">Alimentação</div>
+  <div class="card">
+    <div id="foods" class="food-list"></div>
+    <div class="row" style="margin-top:12px"><button class="btn primary" id="addFood">+ Alimento</button><button class="btn" id="clearFoods">Limpar dia</button></div>
+  </div>
+
+  <div class="section-title">Água</div>
+  <div class="card">
+    <div class="row"><input id="customWater" type="number" min="0" step="0.05" placeholder="Quantidade em litros"><button class="btn blue" id="addWater">Adicionar</button></div>
+    <div class="water"><button class="btn" data-water="0.20">+200 ml</button><button class="btn" data-water="0.30">+300 ml</button><button class="btn" data-water="0.50">+500 ml</button><button class="btn" data-water="0.75">+750 ml</button></div>
+    <div class="statline" style="margin-top:11px"><span>Total registrado</span><b id="waterTotalText">0,00 L</b></div>
+  </div>
+
+  <div class="section-title">Semana de treino</div>
+  <div class="card">
+    <div class="weekHead"><div><strong style="font-size:13px">Checklist semanal</strong><div class="weekMeta">Marque os treinos já realizados. Dias futuros ficam bloqueados.</div></div><span class="pill blue" id="weekProgress">0/0</span></div>
+    <div id="trainingAgenda"></div>
+  </div>
+
+  <div class="section-title">Suplementação</div>
+  <div class="card">
+    <div class="item"><input class="check" type="checkbox" data-check="beta1"><div class="emoji">💊</div><div class="item-main"><div class="item-time">07:15</div><div class="item-name">Beta-alanina • 2 cápsulas</div></div><span class="pill green">parte 1</span></div>
+    <div class="item"><input class="check" type="checkbox" data-check="beta2"><div class="emoji">💊</div><div class="item-main"><div class="item-time">16:00–17:00</div><div class="item-name">Beta-alanina • 2 cápsulas</div></div><span class="pill green">parte 2</span></div>
+    <div class="item"><input class="check" type="checkbox" data-check="mag"><div class="emoji">🌙</div><div class="item-main"><div class="item-time">20:00–21:00</div><div class="item-name">Magnésio • 1 cápsula</div></div><span class="pill green">jantar</span></div>
+    <div class="note" style="margin-top:10px">A beta-alanina permanece em 4 cápsulas/dia conforme sua escolha. A porção do rótulo deve ser considerada junto do acompanhamento profissional.</div>
+  </div>
+
+  <div class="section-title">Observações</div>
+  <div class="card"><textarea id="notes" style="min-height:110px" placeholder="Energia, fome, desempenho, sono, glicemia fora do habitual, etc."></textarea></div>
+
+  <div class="footer">Os dados ficam armazenados localmente no navegador deste aparelho. A meta de 2.200 kcal e a hidratação são pontos de partida para organização. O app não prescreve alimentação, exercício ou insulina.</div>
+</div>
+<script>
+const KEY='perform_protocolo_v6';
+const LEGACY_KEY='perform_protocolo_v5';
+const TARGET_KCAL=2200,TARGET_WATER=2.2;
+const training={
+  0:{name:'Descanso',time:'—',detail:'sem treinos'},
+  1:{name:'Descanso',time:'—',detail:'sem treinos'},
+  2:{name:'Musculação',time:'11:15–12:15',detail:'sessão prevista'},
+  3:{name:'Musculação + Funcional CT Nine',time:'11:15 + 18:30–19:30',detail:'dois estímulos no dia'},
+  4:{name:'Funcional CT Nine',time:'18:30–19:30',detail:'sessão prevista'},
+  5:{name:'Musculação',time:'11:15–12:15',detail:'sessão prevista'},
+  6:{name:'Musculação',time:'Horário a definir',detail:'sessão prevista'}
+};
+const dayNames=['Domingo','Segunda','Terça','Quarta','Quinta','Sexta','Sábado'];
+const workoutDays=[2,3,5,6],footballDays=[3,4];
+let state={date:'',foods:[],water:0,checks:{},notes:'',weeklyChecks:{}};
+function localToday(){const d=new Date();const z=n=>String(n).padStart(2,'0');return `${d.getFullYear()}-${z(d.getMonth()+1)}-${z(d.getDate())}`}
+function load(){
+  let raw=localStorage.getItem(KEY);
+  if(!raw) raw=localStorage.getItem(LEGACY_KEY);
+  if(raw){try{state=JSON.parse(raw)}catch(e){}}
+  if(!state || typeof state!=='object') state={};
+  state.date=state.date||localToday();
+  state.foods=Array.isArray(state.foods)?state.foods:[];
+  state.water=Number(state.water)||0;
+  state.checks=state.checks&&typeof state.checks==='object'?state.checks:{};
+  state.notes=state.notes||'';
+  state.weeklyChecks=state.weeklyChecks&&typeof state.weeklyChecks==='object'?state.weeklyChecks:{};
+  save();
+}
+function save(){localStorage.setItem(KEY,JSON.stringify(state))}
+function fmt(n,d=0){return new Intl.NumberFormat('pt-BR',{minimumFractionDigits:d,maximumFractionDigits:d}).format(n)}
+function dayLabel(dateStr){const d=new Date(dateStr+'T12:00:00');return d.toLocaleDateString('pt-BR',{weekday:'long',day:'2-digit',month:'2-digit',year:'numeric'})}
+const mealIdeas={
+  0:{snack1:'🍎 Iogurte natural + maçã + 25 g de aveia (~280 kcal).',snack2:'🥑 Torrada integral + queijo branco + 1/2 abacate pequeno (~320 kcal).',ceia:'🥣 Iogurte grego natural + 15 g de castanhas (~250 kcal).'},
+  1:{snack1:'🍓 Iogurte natural + morangos + 30 g de aveia (~270 kcal).',snack2:'🥪 Pão integral + queijo minas + tomate (~300 kcal).',ceia:'🥛 Leite + 1 kiwi + 15 g de pasta de amendoim (~260 kcal).'},
+  2:{snack1:'🍌 Banana + 30 g de aveia + 170 g de iogurte natural (~320 kcal).',snack2:'🥪 Sanduíche integral de frango desfiado + fruta (~360 kcal).',ceia:'🥛 Leite + banana pequena + 20 g de aveia (~300 kcal).'},
+  3:{snack1:'🍌 Banana + aveia + iogurte natural (~320 kcal) para a musculação.',snack2:'⚽ Pão integral + queijo branco + banana (~350 kcal) para o CT Nine.',ceia:'🥣 Iogurte grego + 20 g de aveia + 10 g de castanhas (~300 kcal).'},
+  4:{snack1:'🥚 2 ovos + 2 fatias de pão integral + fruta (~350 kcal).',snack2:'⚽ Iogurte + banana + 25 g de aveia (~300 kcal) antes do CT Nine.',ceia:'🥛 Leite + iogurte natural + fruta pequena (~250 kcal).'},
+  5:{snack1:'🍌 Banana + pasta de amendoim + iogurte natural (~330 kcal).',snack2:'🥪 Pão integral + atum + tomate + fruta (~370 kcal).',ceia:'🥣 Iogurte + fruta + 20 g de aveia (~280 kcal).'},
+  6:{snack1:'🥣 Overnight oats: 50 g de aveia + leite + banana + canela (~350 kcal).',snack2:'🥪 Sanduíche integral de ovos + queijo + fruta (~380 kcal).',ceia:'🥛 Leite + 20 g de aveia + 15 g de pasta de amendoim (~300 kcal).'}
+};
+function recommendation(hour,d,remaining){
+  const set=mealIdeas[d]||mealIdeas[0];
+  if(hour==='10:15') return set.snack1;
+  if(hour==='16:00–17:00') return set.snack2;
+  if(hour==='22:00–23:00'){
+    if(remaining>=350) return set.ceia;
+    if(remaining>=200) return set.ceia.replace(/~\d+ kcal/g,'~230 kcal');
+    if(remaining>=100) return '🍎 Opção leve: fruta + iogurte natural (~150 kcal).';
+    return '✅ Poucas kcal restantes: não é necessário comer apenas para preencher a meta.';
+  }
+  return '';
+}
+function tasksForDay(d,kcal){
+  const workout=workoutDays.includes(d),football=footballDays.includes(d),remaining=Math.max(0,TARGET_KCAL-kcal);
+  const rows=[
+    ['07:00','🩸','Acordar + Glicemia','daily0',''],
+    ['07:15','☕','Café da manhã + Beta Alanina (2 cápsulas)','beta1',''],
+    ['10:15','🍌','Lanche','daily2',recommendation('10:15',d,remaining)]
+  ];
+  if(workout){
+    rows.push([d===6?'Horário a definir':'11:15', '🏋️','Treino (Musculação)','daily3','']);
+    rows.push(['12:15','🍛','Almoço / pós treino','daily4','']);
+  }else if(d===0 || d===1){
+    rows.push(['12:15','🍛','Almoço','daily4','']);
+  }else{
+    rows.push(['12:15','🍛','Almoço','daily4','']);
+  }
+  rows.push(['16:00–17:00','🥪','Lanche + Beta Alanina (2 cápsulas)','beta2',recommendation('16:00–17:00',d,remaining)]);
+  if(football) rows.push(['18:30–19:30','⚽','Funcional CT Nine','daily6','']);
+  rows.push(['20:00–21:00','🍽️','Jantar + Magnésio (1 cápsula)','mag','']);
+  rows.push(['22:00–23:00','🥛','Ceia','daily8',recommendation('22:00–23:00',d,remaining)]);
+  rows.push(['23:15','😴','Sono','daily9','']);
+  return rows;
+}
+function renderChecklist(d,kcal){
+  const rows=tasksForDay(d,kcal);
+  document.getElementById('checklist').innerHTML=rows.map(x=>`<div class="item ${state.checks[x[3]]?'done':''}"><input class="check" type="checkbox" data-check="${x[3]}" ${state.checks[x[3]]?'checked':''}><div class="emoji">${x[1]}</div><div class="item-main"><div class="item-time">${x[0]}</div><div class="item-name">${x[2]}</div>${x[4]?`<div class="note" style="margin-top:4px">${x[4]}</div>`:''}</div></div>`).join('');
+}
+function renderChecks(){document.querySelectorAll('[data-check]').forEach(c=>{c.onchange=()=>{state.checks[c.dataset.check]=c.checked;save();render()}})}
+function updateTaskProgress(){
+  const d=new Date(state.date+'T12:00:00').getDay();
+  const kcal=state.foods.reduce((a,f)=>a+(Number(f.kcal)||0),0);
+  const rows=tasksForDay(d,kcal);
+  const done=rows.filter(x=>state.checks[x[3]]).length;
+  const pct=rows.length?Math.round(done/rows.length*100):0;
+  document.getElementById('taskBar').style.width=pct+'%';
+  document.getElementById('taskPct').textContent=pct+'%';
+  document.getElementById('taskCount').textContent=`${done} de ${rows.length} tarefas concluídas${pct===100?' • DIA FECHADO':''}`;
+}
+function renderFoods(){
+  const el=document.getElementById('foods');
+  if(!state.foods.length){el.innerHTML='<div class="empty">Adicione os alimentos consumidos para atualizar automaticamente as kcal do dia.</div>';return}
+  el.innerHTML=state.foods.map((f,i)=>`<div class="food"><input data-food="name" data-i="${i}" value="${esc(f.name||'')}" placeholder="Alimento"><input data-food="kcal" data-i="${i}" type="number" min="0" value="${Number(f.kcal)||0}" placeholder="kcal"><button class="iconbtn" data-del="${i}" title="Remover">×</button></div>`).join('');
+  el.querySelectorAll('[data-food]').forEach(inp=>inp.oninput=()=>{const i=+inp.dataset.i;state.foods[i][inp.dataset.food]=inp.dataset.food==='kcal'?Number(inp.value)||0:inp.value;save();render(false)});
+  el.querySelectorAll('[data-del]').forEach(b=>b.onclick=()=>{state.foods.splice(+b.dataset.del,1);save();render()});
+}
+function renderNotes(){document.getElementById('notes').value=state.notes||''}
+function isoDate(d){const z=n=>String(n).padStart(2,'0');return `${d.getFullYear()}-${z(d.getMonth()+1)}-${z(d.getDate())}`}
+function weekDates(dateStr){
+  const base=new Date(dateStr+'T12:00:00');
+  const monday=new Date(base);
+  const offset=(monday.getDay()+6)%7;
+  monday.setDate(monday.getDate()-offset);
+  return Array.from({length:7},(_,i)=>{const d=new Date(monday);d.setDate(monday.getDate()+i);return d});
+}
+function weeklyDays(dateStr){
+  return weekDates(dateStr).map(dt=>{
+    const dow=dt.getDay();
+    const date=isoDate(dt);
+    let sessions=[];
+    if(dow===2) sessions=[['🏋️','Musculação','11:15']];
+    else if(dow===3) sessions=[['🏋️','Musculação','11:15'],['⚽','Funcional CT Nine','18:30–19:30']];
+    else if(dow===4) sessions=[['⚽','Funcional CT Nine','18:30–19:30']];
+    else if(dow===5) sessions=[['🏋️','Musculação','11:15']];
+    else if(dow===6) sessions=[['🏋️','Musculação','Horário a definir']];
+    return {date,dow,sessions,training:sessions.length>0};
+  });
+}
+function renderAgenda(){
+  const today=localToday(), days=weeklyDays(state.date), el=document.getElementById('trainingAgenda');
+  let doneCount=0,totalTrainingDays=0;
+  el.innerHTML=days.map(day=>{
+    const isFuture=day.date>today,isToday=day.date===today;
+    if(day.training) totalTrainingDays++;
+    const key=`${day.date}|day`;
+    const checked=!!state.weeklyChecks[key];
+    if(day.training && checked) doneCount++;
+    const label=day.training?(checked?'Realizado':(isFuture?'Aguardando':'Não realizado')):'Descanso';
+    const statusClass=checked?'done':(isFuture?'':'pending');
+    const detail=day.training?day.sessions.map(x=>`${x[0]} ${x[1]} • ${x[2]}`).join('  +  '):'Sem treinos';
+    const icon=day.training?'🏁':'😴';
+    return `<div class="weekItem ${isToday?'today':''} ${isFuture?'future':''}">
+      <input class="weekCheck" type="checkbox" data-week-check="${esc(key)}" ${checked?'checked':''} ${(isFuture||!day.training)?'disabled':''}>
+      <div class="weekIcon">${icon}</div>
+      <div class="weekMain"><div class="weekDay">${dayNames[day.dow]}${isToday?' • Hoje':''}</div><div class="weekTask">${detail}</div></div>
+      <div><div class="weekStatus ${statusClass}">${label}</div></div>
+    </div>`;
+  }).join('');
+  document.getElementById('weekProgress').textContent=`${doneCount}/${totalTrainingDays}`;
+  el.querySelectorAll('[data-week-check]').forEach(c=>c.onchange=()=>{state.weeklyChecks[c.dataset.weekCheck]=c.checked;save();renderAgenda()});
+}
+function nextTrainingInfo(d){
+  if(d===2) return ['11:15','Musculação'];
+  if(d===3) return ['11:15','Musculação'];
+  if(d===4) return ['18:30','Funcional CT Nine'];
+  if(d===5) return ['11:15','Musculação'];
+  if(d===6) return ['Horário a definir','Musculação'];
+  return ['Terça 11:15','Musculação'];
+}
+function render(){
+  const d=new Date(state.date+'T12:00:00').getDay();
+  const kcal=state.foods.reduce((a,f)=>a+(Number(f.kcal)||0),0);
+  document.getElementById('weekdayLabel').textContent=dayLabel(state.date);
+  document.getElementById('datePicker').value=state.date;
+  document.getElementById('dayBadge').textContent=dayNames[d];
+  document.getElementById('kcalNow').textContent=fmt(kcal);
+  document.getElementById('kcalRemain').textContent=kcal>=TARGET_KCAL?'Meta atingida':`${fmt(Math.max(0,TARGET_KCAL-kcal))} kcal restantes`;
+  document.getElementById('kcalPct').textContent=fmt(Math.min(100,kcal/TARGET_KCAL*100),0)+'%';
+  document.getElementById('kcalBar').style.width=Math.min(100,kcal/TARGET_KCAL*100)+'%';
+  const water=Math.max(0,state.water||0);
+  document.getElementById('waterNow').textContent=fmt(water,1);
+  document.getElementById('waterRemain').textContent=water>=TARGET_WATER?'Meta atingida':`${fmt(Math.max(0,TARGET_WATER-water),1)} L restantes`;
+  document.getElementById('waterPct').textContent=fmt(Math.min(100,water/TARGET_WATER*100),0)+'%';
+  document.getElementById('waterBar').style.width=Math.min(100,water/TARGET_WATER*100)+'%';
+  document.getElementById('waterTotalText').textContent=fmt(water,2)+' L';
+  const next=nextTrainingInfo(d);document.getElementById('nextTraining').textContent=next[0];document.getElementById('nextTrainingSub').textContent=next[1];
+  document.getElementById('functionalToday').textContent=footballDays.includes(d)?'18:30–19:30':'—';
+  renderChecklist(d,kcal);renderFoods();renderAgenda();renderNotes();updateTaskProgress();renderChecks();
+}
+function esc(s){return String(s).replace(/[&<>"]/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[m]))}
+load();render();
+document.getElementById('addFood').onclick=()=>{state.foods.push({name:'',kcal:0});save();render();setTimeout(()=>{const inputs=document.querySelectorAll('[data-food="name"]');if(inputs.length)inputs[inputs.length-1].focus()},30)};
+document.getElementById('clearFoods').onclick=()=>{if(confirm('Limpar os alimentos registrados hoje?')){state.foods=[];save();render()}};
+document.querySelectorAll('[data-water]').forEach(b=>b.onclick=()=>{state.water+=Number(b.dataset.water);save();render()});
+document.getElementById('addWater').onclick=()=>{const v=Number(document.getElementById('customWater').value)||0;if(v>0){state.water+=v;document.getElementById('customWater').value='';save();render()}};
+document.getElementById('datePicker').onchange=e=>{const d=e.target.value;if(!d)return;const weekly=state.weeklyChecks||{};state={date:d,foods:[],water:0,checks:{},notes:'',weeklyChecks:weekly};save();render()};
+document.getElementById('notes').oninput=e=>{state.notes=e.target.value;save()};
+// Registra o service worker (funcionamento offline). Só funciona em https ou localhost.
+if('serviceWorker' in navigator){window.addEventListener('load',()=>{navigator.serviceWorker.register('./sw.js').catch(()=>{})})}
+</script>
+</body>
+</html>
